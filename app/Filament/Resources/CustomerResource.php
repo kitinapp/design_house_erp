@@ -121,24 +121,24 @@ class CustomerResource extends Resource
     }
 
 
-//    public static function infolist(Infolist $infolist): Infolist
-//    {
-//        return $infolist
-//            ->schema([
-//                Section::make('Department info')
-//                    ->schema([
-//                        TextEntry::make('name')->label('Name'),
-//                        TextEntry::make('Employees')->label('Employees Count')
-//                            ->state(
-//                                function (Model $record): int{
-////                                    return $record->customer()->count();
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make('Customer info')
+                    ->schema([
+                        TextEntry::make('name')->label('Name'),
+                        TextEntry::make('orders_count')->label('Orders Count')
+                            ->state(
+                                function (Model $record): int{
+                                    return $record->orders()->count();
 //                                    return static::getModel()::count();
-//                                }
-//                            )
-//                    ])->columns(2)
-//            ]);
-//
-//    }
+                                }
+                            )
+                    ])->columns(2)
+            ]);
+
+    }
 
     public static function getRelations(): array
     {
