@@ -7,6 +7,7 @@ use App\Filament\Resources\VendorResource\RelationManagers;
 use App\Models\Vendor;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -86,6 +87,14 @@ class VendorResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Vendor Deleted.')
+                            ->body('The Vendor Deleted Successfully')
+
+                    )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

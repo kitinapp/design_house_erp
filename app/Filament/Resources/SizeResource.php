@@ -7,6 +7,7 @@ use App\Filament\Resources\SizeResource\RelationManagers;
 use App\Models\Size;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -72,6 +73,14 @@ class SizeResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Size Deleted.')
+                            ->body('The Size Deleted Successfully')
+
+                    )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

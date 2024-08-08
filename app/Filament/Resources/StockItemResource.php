@@ -7,6 +7,7 @@ use App\Filament\Resources\StockItemResource\RelationManagers;
 use App\Models\StockItem;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -78,6 +79,14 @@ class StockItemResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->successNotification(
+                        Notification::make()
+                            ->success()
+                            ->title('Stock Item Deleted.')
+                            ->body('The Stock Item Deleted Successfully')
+
+                    )
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
