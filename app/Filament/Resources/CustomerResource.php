@@ -79,7 +79,8 @@ class CustomerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('orders_count')
                     ->counts('orders')
                     ->searchable()
@@ -92,7 +93,8 @@ class CustomerResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('city')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')

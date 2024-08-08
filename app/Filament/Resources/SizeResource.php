@@ -43,7 +43,6 @@ class SizeResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
-                    ->required()
                     ->maxLength(255),
             ]);
     }
@@ -54,7 +53,8 @@ class SizeResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
