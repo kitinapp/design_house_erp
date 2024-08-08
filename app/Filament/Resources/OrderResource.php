@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\CarbonImmutable;
 use Filament\Actions\Action;
 use Filament\Forms;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 
 class OrderResource extends Resource
 {
@@ -205,10 +207,10 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('size.name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('each_item_amount')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(),
+//                Tables\Columns\TextColumn::make('each_item_amount')
+//                    ->numeric()
+//                    ->sortable()
+//                    ->toggleable(),
                 Tables\Columns\TextColumn::make('paperVendor.name')
                     ->sortable()
                     ->searchable(),
@@ -258,6 +260,8 @@ class OrderResource extends Resource
                     ->searchable()
                     ->label('Filter by Customers')
                     ->indicator('Customers'),
+
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
@@ -270,6 +274,32 @@ class OrderResource extends Resource
                             ->body('The Order Deleted Successfully')
 
                     ),
+                Tables\Actions\Action::make('single_pdf')
+                    ->label('PDF')
+                    ->color('success')
+                    ->icon('fas-download')
+                    ->action(function (Model $record) {
+                        return response()->streamDownload(function () use ($record) {
+                            echo Pdf::loadHtml(
+                                Blade::render('orderPdf', ['record' => $record])
+                            )->stream();
+                        }, $record->customer->name . '_' .  $record->created_at . '.pdf');
+                    }),
+
+            ])
+            ->headerActions([
+                Tables\Actions\Action::make('pdf')
+                    ->label('PDF')
+                    ->icon('fas-download')
+                    ->action(function () {
+                        $records = Order::all(); // Fetch all records you want to include
+
+                        return response()->streamDownload(function () use ($records) {
+                            echo Pdf::loadHtml(
+                                Blade::render('ordersPdf', ['records' => $records])
+                            )->stream();
+                        }, 'all_orders.pdf');
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -288,7 +318,6 @@ class OrderResource extends Resource
                         TextEntry::make('order_date')->label('Order Date'),
                         TextEntry::make('customer.name')->label('Customer'),
                         TextEntry::make('stockItem.name')->label('Stock Item'),
-                        TextEntry::make('customer.name')->label('Customer'),
                         TextEntry::make('quantity')->label('Quantity'),
                         TextEntry::make('size.name')->label('Size'),
                         TextEntry::make('PaperVendor.name')->label('Paper'),

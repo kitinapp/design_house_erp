@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\EmployeeResource\Pages;
+namespace App\Filament\EmployeeResource\Pages;
 
 use App\Filament\CreateRecordAndRedirectToIndex;
-use App\Filament\Resources\EmployeeResource;
-use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use App\Filament\EmployeeResource\EmployeeResource;
 
 class CreateEmployee extends CreateRecordAndRedirectToIndex
 {

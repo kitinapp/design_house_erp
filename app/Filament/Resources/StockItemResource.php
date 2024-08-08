@@ -45,7 +45,6 @@ class StockItemResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
-                    ->required()
                     ->maxLength(255),
             ]);
     }

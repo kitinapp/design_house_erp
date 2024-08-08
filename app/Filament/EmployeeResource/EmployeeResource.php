@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\EmployeeResource;
 
 use App\Filament\Resources\EmployeeResource\Pages;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
@@ -11,8 +11,6 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class EmployeeResource extends Resource
 {
@@ -114,10 +112,10 @@ class EmployeeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListEmployees::route('/'),
-            'create' => Pages\CreateEmployee::route('/create'),
-            'view' => Pages\ViewEmployee::route('/{record}'),
-            'edit' => Pages\EditEmployee::route('/{record}/edit'),
+            'index' => \App\Filament\EmployeeResource\Pages\ListEmployees::route('/'),
+            'create' => \App\Filament\EmployeeResource\Pages\CreateEmployee::route('/create'),
+            'view' => \App\Filament\EmployeeResource\Pages\ViewEmployee::route('/{record}'),
+            'edit' => \App\Filament\EmployeeResource\Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
 }

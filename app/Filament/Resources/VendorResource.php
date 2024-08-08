@@ -35,7 +35,6 @@ class VendorResource extends Resource
     }
 
 
-
     public static function form(Form $form): Form
     {
         return $form
@@ -44,8 +43,8 @@ class VendorResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('mobile')
-                    ->required()
-                    ->maxLength(15),
+                    ->numeric()
+                    ->required(),
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->maxLength(255)
@@ -54,7 +53,8 @@ class VendorResource extends Resource
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\Toggle::make('status')
-                    ->required(),
+                    ->required()
+                    ->default(1),
             ]);
     }
 

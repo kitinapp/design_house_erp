@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\EmployeeResource\Pages;
+namespace App\Filament\EmployeeResource\Pages;
 
 use App\Filament\EditRecordAndRedirectToIndex;
-use App\Filament\Resources\EmployeeResource;
+use App\Filament\EmployeeResource\EmployeeResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
 
 class EditEmployee extends EditRecordAndRedirectToIndex
 {
