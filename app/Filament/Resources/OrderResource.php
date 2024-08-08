@@ -6,6 +6,7 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Carbon\CarbonImmutable;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Section;
@@ -28,7 +29,7 @@ class OrderResource extends Resource
 
     protected static ?string $navigationLabel = "Orders";
     protected static ?string $modelLabel = "Order";
-    protected static ?string $navigationGroup = "Order Details";
+//    protected static ?string $navigationGroup = "Order Details";
     protected static ?string $slug = "orders";
     protected static ?int $navigationSort = 1;
 
@@ -181,31 +182,33 @@ class OrderResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('created_by_name')
-                    ->searchable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('quantity')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('each_item_amount')
-                    ->numeric()
-                    ->sortable()
-                    ->toggleable(),
-                Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('serial_number')
+                    ->label('S/N')
+                    ->getStateUsing(function ($rowLoop) {
+                        return $rowLoop->index + 1;
+                    }),
                 Tables\Columns\TextColumn::make('order_date')
                     ->date()
                     ->sortable(),
+//                Tables\Columns\TextColumn::make('created_by_name')
+//                    ->searchable()
+//                    ->toggleable(),
                 Tables\Columns\TextColumn::make('customer.name')
-                    ->sortable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('size.name')
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('stockItem.name')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('quantity')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('size.name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('each_item_amount')
+                    ->numeric()
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('paperVendor.name')
                     ->sortable()
                     ->searchable(),
@@ -223,6 +226,9 @@ class OrderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('delivery_date')
                     ->date()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Created By')
@@ -263,7 +269,7 @@ class OrderResource extends Resource
                             ->title('Order Deleted.')
                             ->body('The Order Deleted Successfully')
 
-                    )
+                    ),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
