@@ -4,19 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Customer extends Model
+class StockItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'mobile',
-        'email',
-        'city',
-        'status'
+        'description'
     ];
 
+
+    // Define the inverse relationship
     public function orders()
     {
         return $this->hasMany(Order::class);

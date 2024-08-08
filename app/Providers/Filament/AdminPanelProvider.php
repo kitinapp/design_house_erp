@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Closure;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -27,6 +28,13 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->registration()
+            ->profile()
+            ->navigationGroups([
+                'Order Details',
+                'Stock Item Details',
+                'Users Details',
+            ])
             ->colors([
                 'danger' => Color::Rose,
                 'gray' => Color::Gray,

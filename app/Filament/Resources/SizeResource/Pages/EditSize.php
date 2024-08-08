@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\CustomerResource\Pages;
+namespace App\Filament\Resources\SizeResource\Pages;
 
 use App\Filament\EditRecordAndRedirectToIndex;
-use App\Filament\Resources\CustomerResource;
+use App\Filament\Resources\SizeResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCustomer extends EditRecordAndRedirectToIndex
+class EditSize extends EditRecordAndRedirectToIndex
 {
-    protected static string $resource = CustomerResource::class;
+    protected static string $resource = SizeResource::class;
 
     protected function getHeaderActions(): array
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\CustomerResource\Pages;
+namespace App\Filament\Resources\StockItemResource\Pages;
 
 use App\Filament\EditRecordAndRedirectToIndex;
-use App\Filament\Resources\CustomerResource;
+use App\Filament\Resources\StockItemResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCustomer extends EditRecordAndRedirectToIndex
+class EditStockItem extends EditRecordAndRedirectToIndex
 {
-    protected static string $resource = CustomerResource::class;
+    protected static string $resource = StockItemResource::class;
 
     protected function getHeaderActions(): array
     {

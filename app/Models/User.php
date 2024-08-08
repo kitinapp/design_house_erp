@@ -44,4 +44,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Define the inverse relationship
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

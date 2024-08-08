@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\VendorResource\Pages;
+use App\Filament\Resources\VendorResource\RelationManagers;
+use App\Models\Vendor;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +13,15 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class VendorResource extends Resource
 {
-    protected static ?string $model = User::class;
-
-    protected static ?string $navigationIcon = 'fas-user';
-
-    protected static ?string $navigationLabel = "Users";
-    protected static ?string $modelLabel = "User";
+    protected static ?string $model = Vendor::class;
+    protected static ?string $navigationIcon = 'fas-user-tie';
+    protected static ?string $navigationLabel = "Vendors";
+    protected static ?string $modelLabel = "Vendor";
     protected static ?string $navigationGroup = "Users Details";
-    protected static ?string $slug = "users";
-    protected static ?int $navigationSort = 4;
+    protected static ?string $slug = "vendors";
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationBadge(): ?string
     {
@@ -36,6 +34,7 @@ class UserResource extends Resource
     }
 
 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -43,15 +42,18 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('mobile')
+                    ->required()
+                    ->maxLength(15),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('city')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\Toggle::make('status')
+                    ->required(),
             ]);
     }
 
@@ -61,11 +63,14 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('mobile')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('city')
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,10 +104,10 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListVendors::route('/'),
+            'create' => Pages\CreateVendor::route('/create'),
+            'view' => Pages\ViewVendor::route('/{record}'),
+            'edit' => Pages\EditVendor::route('/{record}/edit'),
         ];
     }
 }

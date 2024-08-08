@@ -21,11 +21,11 @@ class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
 
-    protected static ?string $navigationIcon = 'fas-users';
+    protected static ?string $navigationIcon = 'fas-users-gear';
 
     protected static ?string $navigationLabel = "Customers";
     protected static ?string $modelLabel = "Customer";
-    protected static ?string $navigationGroup = "Customer Details";
+    protected static ?string $navigationGroup = "Users Details";
     protected static ?string $slug = "customers";
     protected static ?int $navigationSort = 1;
 
@@ -78,11 +78,21 @@ class CustomerResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('orders_count')
+                    ->counts('orders')
+                    ->searchable()
+                    ->label('Total Orders')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('mobile')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('city')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')

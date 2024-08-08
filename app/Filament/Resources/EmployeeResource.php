@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\EmployeeResource\Pages;
+use App\Filament\Resources\EmployeeResource\RelationManagers;
+use App\Models\Employee;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,17 +13,18 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UserResource extends Resource
+class EmployeeResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = Employee::class;
 
-    protected static ?string $navigationIcon = 'fas-user';
+    protected static ?string $navigationIcon = 'fas-briefcase';
 
-    protected static ?string $navigationLabel = "Users";
-    protected static ?string $modelLabel = "User";
+    protected static ?string $navigationLabel = "Employees";
+    protected static ?string $modelLabel = "Employee";
     protected static ?string $navigationGroup = "Users Details";
-    protected static ?string $slug = "users";
-    protected static ?int $navigationSort = 4;
+    protected static ?string $slug = "employees";
+    protected static ?int $navigationSort = 3;
+
 
     public static function getNavigationBadge(): ?string
     {
@@ -35,7 +36,6 @@ class UserResource extends Resource
         return static::getModel()::count() < 10 ? 'warning' : 'success';
     }
 
-
     public static function form(Form $form): Form
     {
         return $form
@@ -43,15 +43,18 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('mobile')
+                    ->required()
+                    ->maxLength(15),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('city')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\Toggle::make('status')
+                    ->required(),
             ]);
     }
 
@@ -61,11 +64,14 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('mobile')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('city')
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -99,10 +105,10 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListEmployees::route('/'),
+            'create' => Pages\CreateEmployee::route('/create'),
+            'view' => Pages\ViewEmployee::route('/{record}'),
+            'edit' => Pages\EditEmployee::route('/{record}/edit'),
         ];
     }
 }
